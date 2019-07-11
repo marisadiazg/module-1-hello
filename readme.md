@@ -1,4 +1,6 @@
 #**My First Page**
+
+
 ##Introduction
 In this project we are creating a responsive web page that is sensitive to the path entry, using node js, implementing 2 files, 1 is for creating the server, in which we are calling the other file like a exported module, n there we create the conditioned response to the different entry in paths
 
