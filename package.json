@@ -1,0 +1,40 @@
+{
+  "name": "testapp",
+  "version": "1.0.0",
+  "description": "package hello world ",
+  "main": "server.ts",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha -r ts-node/register src/**/*.test.ts",
+    "build": "./node_modules/.bin/tsc -p tsconfig.json",
+    "start": "./node_modules/.bin/ts-node src/server.ts",
+    "mongo": "./node_modules/.bin/ts-node src/mongodb-test.ts",
+    "dev": "./node_modules/.bin/nodemon "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marisadiazg/module-1-hello.git"
+  },
+  "author": "Marisa Diaz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marisadiazg/module-1-hello/issues"
+  },
+  "homepage": "https://github.com/marisadiazg/module-1-hello#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "mongodb": "^3.2.7",
+    "nodemon": "^1.19.1",
+    "typescript": "^3.5.3"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/express": "^4.17.0",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.6.2",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "ts-node": "^8.3.0"
+  }
+}
