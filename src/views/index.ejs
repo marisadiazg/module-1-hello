@@ -1,0 +1,35 @@
+<head><% include partials/head %></head>
+<h1>Hello <%= username %></h1>
+        <button class="btn btn-success" id="show-metrics">
+          Bring the metrics
+        </button>
+        <form href="/delete" action="/delete" method="post">
+          <button class="btn btn-success" onClick='document.location.href="/logout"'>
+          Delete user
+          </button>
+        </form>
+        <button class="btn btn-danger" href="/logout" onClick='document.location.href="/logout"'>
+          Logout
+        </button>
+        <div id="metrics"></div>
+      </div>
+  <script>
+  $('#show-metrics').click((e) => {
+      e.preventDefault();
+      $.getJSON("/metrics.json", {}, (data) => {
+        const content = data.map(d => {
+          return 'timestamp: '+d.timestamp+', value: '+d.value+'';
+        })
+        $('#metrics').append(content.join("\n"));
+      });
+    })
+  </script>
+  </body>
+</html>
+
+
+
+
+  
+
+

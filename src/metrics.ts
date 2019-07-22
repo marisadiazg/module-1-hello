@@ -40,7 +40,7 @@ export class MetricsHandler {
 
   //GET DOCUMENTS
   public getDocs(params:any, callback: (err: Error | null, result?: any) => void){  
-    //console.log(params)
+    console.log(params)
     const collection = this.db.collection('documents');
     // Find some documents
     collection.find({'value': parseInt(params)}).toArray(function(err: any, docs: object) {
