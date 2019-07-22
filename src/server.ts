@@ -191,9 +191,9 @@ app.post('/delete', (req:any, res:any)=>{
   res.redirect('/login')
 }) 
 
-app.delete('delete-doc', (req:any, res:any)=>{
+app.delete('/delete-doc', (req:any, res:any)=>{
   var username = req.session.user.username
-  new UserHandler(db).remove(username, (err:any, result:any)=> {
+  new MetricsHandler(db).deleteOne(username, (err:any, result:any)=> {
     if (err)
       console.log("hello")
   })

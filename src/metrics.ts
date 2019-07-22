@@ -61,6 +61,15 @@ export class MetricsHandler {
     });
   } 
 
+  public deleteOne(params:any, callback: (err: Error | null, result?: any) => void) {
+    const collection = this.db.collection('documents');
+    collection.deleteOne({'user': params}, function(err:any, obj: any) {
+      if(err)
+        throw err
+      console.log("Found the following documents");
+      callback(err)
+    });
+  }
 }
 
 
