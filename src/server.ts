@@ -55,7 +55,7 @@ app.use((req: any, res: any, next: any) => {
 
 app.post('/metrics', (req: any, res: any) => {
   if(req.body){
-    const metric = new Metric(new Date().getTime().toString(), parseInt(req.body.value));
+    const metric = new Metric(new Date().getTime().toString(), parseInt(req.body.value), (req.body.user));
     new MetricsHandler(db).save(metric, (err: any, result: any) => {
       if (err)
         return res.status(500).json({error: err, result: result});
@@ -171,34 +171,6 @@ authRouter.post('/signup', function (req: any, res: any, next: any) {
 })  
 
 app.use(authRouter)
-
-
-///////
-app.get('/metrics.json', (req: any, res: any) => {
-  MetricsHandler.get((err: Error | null, result?: any) => {
-    if (err) {
-      throw err
-    }
-    res.json(result)
-  })
-})
-
-app.get('/metrics/:number', (req: any, res: any) => {
-   new MetricsHandler(db).getDocs(req.params.number, (err: any, result: any) => {
-    if (err)
-      return res.status(500).json({error: err, result: result});
-    res.status(201).json({result: result})
-   })
-})
-
-app.delete('/metrics/:number', (req: any, res: any) => {
-    new MetricsHandler(db).deleteDocs(req.params.number, (err: any, result: any) => {
-     if (err)
-       return res.status(500).json({error: err, result: result});
-     res.status(201).json({result: result})
-    })
- })
- 
 
 app.post('/delete', (req:any, res:any)=>{
   var username = req.session.user.username

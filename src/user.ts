@@ -40,6 +40,7 @@ export class UserHandler {
     public get(username: string, callback: (err: Error | null, result: User | null) => void) {
       const collection = this.db.collection('users')
       // Find some documents
+      console.log(username)
       collection.findOne({username: username}, function(err: any, result: any) {
         if (err) return callback(err, result)
         if (result)
@@ -64,12 +65,12 @@ export class UserHandler {
       
 
     //Remove an user
-    public remove(userName: string, callback: (err: Error | null, result?: any) => void) {
+    public remove(userName: any, callback: (err: Error | null, result?: any) => void) {
         const collection = this.db.collection('users');
         console.log(userName)
-        collection.deleteMany(
+        collection.remove(
         {'username':userName},
-        function(err: any, result: any, obj: any) {
+        function(err: any, obj: any) {
             if(err)
                 throw err            
             console.log("User removed")

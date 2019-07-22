@@ -1,23 +1,17 @@
 export class Metric {
   public timestamp: string
   public value: number
+  public user: string
 
-  constructor(ts: string, v: number) {
+  constructor(ts: string, v: number, u: string) {
     this.timestamp = ts
     this.value = v
+    this.user = u
   }
 }
 
 
 export class MetricsHandler {
-  static get(callback: (error: Error | null, result?: Metric[]) => void) {
-    const result = [
-      new Metric('2013-11-04 14:00 UTC', 12),
-      new Metric('2013-11-04 14:30 UTC', 15)
-    ]
-    callback(null, result)
-  }
-
   private db: any
 
   constructor(db:any) { 
@@ -34,19 +28,23 @@ export class MetricsHandler {
 
     return callback(err, result)
         console.log("Document inserted into the collection")
+        console.log(err)
+        console.log(result)
         callback(err, result)
     });
   }
 
   //GET DOCUMENTS
   public getDocs(params:any, callback: (err: Error | null, result?: any) => void){  
-    console.log(params)
+    console.log("User: " + params)
     const collection = this.db.collection('documents');
+    var documents = []
     // Find some documents
-    collection.find({'value': parseInt(params)}).toArray(function(err: any, docs: object) {
+    collection.find({'user': params}).toArray(function(err: any, docs: object) {
       if(err)
         throw err
       console.log("Found the following documents");
+      console.log(docs)
       callback(err, docs);
     });
   }
@@ -55,11 +53,11 @@ export class MetricsHandler {
   public deleteDocs(params:any, callback: (err: Error | null, result?: any) => void) {
     const collection = this.db.collection('documents');
   // Find some documents
-    collection.remove({'value': parseInt(params)}, function(err: any, docs: object) {
+    collection.remove({'user': params}, function(err: any, obj: any) {
       if(err)
         throw err
       console.log("Documents");
-      callback(err, docs);
+      callback(err);
     });
   } 
 

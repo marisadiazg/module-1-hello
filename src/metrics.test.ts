@@ -50,7 +50,7 @@ describe('Metrics', () => {
         it('should save data', function() {
             const metric: Metric = {
                 timestamp: new Date().getTime().toString(),
-                 value: 10
+                 value: 10, user: "marisa"
                }
           dbMet.getDocs(metric, function(err: Error | null, result?: Metric[]) {
             expect(err).to.be.null

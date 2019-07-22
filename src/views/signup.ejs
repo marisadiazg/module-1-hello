@@ -1,4 +1,5 @@
 
+<head><% include partials/head %></head>
 <div id="form">
     <p>SIGN UP</p>
     <hr/>
@@ -8,15 +9,14 @@
         <input id="form_username" type="text" name="username" />
       </div>
       <div class="form-group">
-        <label for="form_email">Email</label>
-        <input id="form_email" type="text" name="email" />
+        <label for="form_username">Email</label>
+        <input id="form_username" type="text" name="email" />
       </div>
       <div class="form-group">
         <label for="form_password">Password</label>
         <input id="form_password" type="password" name="password" />
       </div>
-      
-    <button class="btn btn-success btn-block" type="submit" value="Submit">
+    <button class="btn btn-primary btn-block" type="submit" value="Submit" onClick='document.location.href="/login"'>
       Create an account
     </button>
     </form>

@@ -1,29 +1,101 @@
 <head><% include partials/head %></head>
 <h1>Hello <%= username %></h1>
-        <button class="btn btn-success" id="show-metrics">
-          Bring the metrics
-        </button>
-        <form href="/delete" action="/delete" method="post">
-          <button class="btn btn-success" onClick='document.location.href="/logout"'>
-          Delete user
-          </button>
-        </form>
-        <button class="btn btn-danger" href="/logout" onClick='document.location.href="/logout"'>
-          Logout
-        </button>
-        <div id="metrics"></div>
-      </div>
-  <script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+
+<div id="form">
+  <form action="/metrics" method="post">
+    <div class="form-group">
+      <label for="form_value">Number of steps: </label>
+      <input id="form_value" type="number" name="value" />
+    </div>
+    <button class="btn btn-primary btn-block" type="submit" value="Submit">Submit</button>
+  </form>
+</div>
+
+<div style="display: -webkit-box;">
+  <button class="btn btn-success" id="show-metrics">Bring the metrics</button>
+  <form href="/delete" action="/delete" method="post">
+    <button class="btn btn-success" onClick='document.location.href="/logout"'>
+    Delete user
+    </button>
+  </form>
+  <button class="btn btn-danger" href="/logout" onClick='document.location.href="/logout"'>
+    Logout
+  </button>
+  <button class="btn btn-danger" id="delete-btn">Delete</button>
+</div>
+        
+<script>
   $('#show-metrics').click((e) => {
       e.preventDefault();
-      $.getJSON("/metrics.json", {}, (data) => {
-        const content = data.map(d => {
-          return 'timestamp: '+d.timestamp+', value: '+d.value+'';
-        })
+      $.getJSON("/metrics", {}, (data) => {
+        var valArray = []
+        var timeArray = []
+        console.log("Data " + data)
+        console.log(data)
+        data.result.forEach(function(d) {
+          valArray.push(d.value)
+          var date = new Date(d.timestamp*1000);
+          timeArray.push(date)
+        });
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: timeArray,
+            datasets: [{
+              label: 'Number of steps',
+              data: valArray,
+              backgroundColor: [
+                'rgba(200, 50, 80, 0.2)',
+                'rgba(0, 110, 180, 0.2)',
+                'rgba(200, 150, 30, 0.2)',
+                'rgba(20, 140, 140, 0.2)',
+                'rgba(100, 50, 200, 0.2)',
+                'rgba(200, 100, 10, 0.2)',
+              ],
+              borderColor: [
+                'rgba(200, 50, 80, 0.2)',
+                'rgba(0, 110, 180, 0.2)',
+                'rgba(200, 150, 30, 0.2)',
+                'rgba(20, 140, 140, 0.2)',
+                'rgba(100, 50, 200, 0.2)',
+                'rgba(200, 100, 10, 0.2)',
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+            }
+          }
+        });
         $('#metrics').append(content.join("\n"));
       });
     })
   </script>
+
+  <script>
+    $('#delete-btn').click(function(event) {
+      event.preventDefault()
+      $.ajax({
+        url: '/delete-doc',
+        method: 'DELETE',
+        succes: function(response) { }
+      })
+
+      sessionStorage.setItem("deletedDocument", $(this).attr('data-value'))
+      location.reload()
+    })
+  </script>
+  <div>
+    <canvas id="myChart" style="max-height:300px; max-width: 150 px"></canvas>
+  </div>
   </body>
 </html>
 
